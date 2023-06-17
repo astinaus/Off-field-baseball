@@ -45,7 +45,7 @@ export default function UserList({ profileData, teamname }) {
         setTeam(item.img);
       }
     });
-  });
+  }, []);
   return (
     <>
       <UserListItem>
@@ -53,13 +53,15 @@ export default function UserList({ profileData, teamname }) {
           <img src={data.image} alt='' />
           <div className='user-info'>
             <h2>{data.username}</h2>
-            <p>{data.accountname}</p>
+            <p>@{data.accountname}</p>
           </div>
         </Link>
         <Container>
-          <TeamLogo>
-            <img src={team} alt='내가 좋아하는 팀 로고' />
-          </TeamLogo>
+          {team ? (
+            <TeamLogo>
+              <img src={team} alt='내가 좋아하는 팀 로고' />
+            </TeamLogo>
+          ) : null}
           <FollowBtn
             profileData={data}
             targetuser={data.accountname}
