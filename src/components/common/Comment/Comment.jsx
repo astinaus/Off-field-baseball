@@ -1,24 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
-// 임시. 기본 프로필 사진
-import { BASIC_PROFILE_SM } from '../../../styles/CommonIcons';
 import { useState } from 'react';
 
-export default function UserSearch({ placeholder, txt }) {
+export default function Comment({
+  placeholder,
+  txt,
+  value,
+  setValue,
+  event,
+  userImg,
+}) {
   const [isValid, setIsValid] = useState(false);
+  // input에 입력된 텍스트를 담는다
 
   // input에 텍스트가 입력되어 있으면, '게시' 버튼이 활성화된다
   const handleForm = (e) => {
     if (e.target.value) {
       setIsValid(true);
     }
+    setValue(e.target.value);
   };
 
   return (
-    <StyledForm isValid={isValid}>
+    <StyledForm onSubmit={event} isValid={isValid}>
       {/* 임시 이미지 */}
-      <img src={BASIC_PROFILE_SM} alt='내 프로필 사진' />
-      <input type='text' placeholder={placeholder} onChange={handleForm} />
+      <img src={userImg} alt='내 프로필 사진' />
+      <input
+        type='text'
+        placeholder={placeholder}
+        onChange={(e) => handleForm(e)}
+        value={value}
+      />
       <button type='submit' disabled={isValid ? '' : 'disabled'}>
         {txt}
       </button>
@@ -26,7 +38,7 @@ export default function UserSearch({ placeholder, txt }) {
   );
 }
 
-UserSearch.defaultProps = {
+Comment.defaultProps = {
   txt: '전송',
   placeholder: '메시지 입력하기...',
 };
@@ -43,6 +55,7 @@ const StyledForm = styled.form`
   img {
     width: 36px;
     aspect-ratio: 1/1;
+    border-radius: 50%;
   }
   input {
     flex-grow: 1;
